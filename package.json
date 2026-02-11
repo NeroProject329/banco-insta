@@ -8,10 +8,21 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "dotenv": "^17.2.4",
     "express": "^5.2.1",
     "pg": "^8.18.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NeroProject329/banco-insta.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NeroProject329/banco-insta/issues"
+  },
+  "homepage": "https://github.com/NeroProject329/banco-insta#readme",
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.11"
   }
 }

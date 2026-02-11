@@ -1,13 +1,11 @@
-const express = require('express');
 require('dotenv').config();
-
+const express = require('express');
 const app = express();
+const PORT = process.env.PORT || 7777;
+
 app.use(express.json());
+app.use('/api', require('./routes/dbRoutes'));
 
-const dbRoutes = require('./routes/dbRoutes');
-app.use('/db', dbRoutes);
-
-const PORT = process.env.PORT || 8888;
 app.listen(PORT, () => {
-  console.log(`🛠️ Mini DB Admin rodando na porta ${PORT}`);
+  console.log(`🛠️ Admin DB API rodando em http://localhost:${PORT}`);
 });

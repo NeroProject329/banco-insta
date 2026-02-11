@@ -2,24 +2,42 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-// exemplo: alterar campo da tabela
-router.post('/alterar-cookie-null', async (req, res) => {
+// Listar todas as contas
+router.get('/contas', async (req, res) => {
   try {
-    await db.query(`ALTER TABLE accounts ALTER COLUMN cookie_json DROP NOT NULL;`);
-    res.json({ status: 'cookie_json agora permite null' });
+    const result = await db.query('SELECT * FROM accounts ORDER BY id DESC');
+    res.json(result.rows);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ erro: 'Falha ao alterar tabela', detalhe: err.message });
+    console.error('[ERRO] ao buscar contas:', err);
+    res.status(500).json({ erro: 'Erro ao buscar contas' });
   }
 });
 
-// outro exemplo: listar contas
-router.get('/contas', async (req, res) => {
+// Atualizar senha de uma conta
+router.post('/contas/:id/senha', async (req, res) => {
+  const { senha } = req.body;
+  const { id } = req.params;
+  if (!senha) return res.status(400).json({ erro: 'Senha é obrigatória' });
+
   try {
-    const result = await db.query('SELECT * FROM accounts');
-    res.json(result.rows);
+    await db.query('UPDATE accounts SET senha = $1 WHERE id = $2', [senha, id]);
+    res.json({ status: 'Senha atualizada com sucesso' });
   } catch (err) {
-    res.status(500).json({ erro: 'Erro ao listar contas' });
+    console.error('[ERRO] ao atualizar senha:', err);
+    res.status(500).json({ erro: 'Erro ao atualizar senha' });
+  }
+});
+
+// Deletar conta
+router.delete('/contas/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await db.query('DELETE FROM accounts WHERE id = $1', [id]);
+    res.json({ status: 'Conta deletada' });
+  } catch (err) {
+    console.error('[ERRO] ao deletar conta:', err);
+    res.status(500).json({ erro: 'Erro ao deletar conta' });
   }
 });
 

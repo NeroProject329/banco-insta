@@ -3,7 +3,9 @@ require('dotenv').config();
 
 const pool = new Pool({
   connectionString: process.env.PG_URL,
-  ssl: { rejectUnauthorized: false }
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 module.exports = {
