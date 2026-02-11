@@ -1,14 +1,16 @@
-const { Pool } = require('pg');
+const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
-const pool = new Pool({
-  connectionString: process.env.PG_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
-});
+const client = new MongoClient(process.env.MONGO_URI);
+let db;
 
-module.exports = {
-  query: (text, params) => pool.query(text, params),
-  pool
-};
+async function connectDB() {
+  if (!db) {
+    await client.connect();
+    db = client.db(); // usa o nome do banco vindo da URI
+    console.log('✅ MongoDB conectado');
+  }
+  return db;
+}
+
+module.exports = connectDB;

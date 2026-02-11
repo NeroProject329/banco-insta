@@ -4,8 +4,8 @@ const app = express();
 const PORT = process.env.PORT || 7777;
 
 app.use(express.json());
-app.use('/api', require('./routes/dbRoutes'));
+app.use('/api/contas', require('./routes/accounts'));
 
 app.listen(PORT, () => {
-  console.log(`🛠️ Admin DB API rodando em http://localhost:${PORT}`);
+  console.log(`🚀 Admin MongoDB API rodando em http://localhost:${PORT}`);
 });
